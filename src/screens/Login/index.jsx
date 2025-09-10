@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // <-- 1. IMPORTADO AQUI
 import styled, { keyframes } from "styled-components";
 import { Input } from "../../components/Input";
@@ -57,7 +57,7 @@ const LoginScreen = () => {
   const { login } = useAuth();
   const navigate = useNavigate(); // <-- 2. INICIALIZADO O HOOK
   const [email, setEmail] = useState("admin@teste.com");
-  const [password, setPassword] = useState("1234");
+  const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

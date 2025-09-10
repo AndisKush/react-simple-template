@@ -1,16 +1,35 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as apiLogin } from '../services/authService'; // Nosso serviço mock
+import { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import api, { setupAuthInterceptor } from '../services/api';
+import { useAlert } from './AlertContext'; // Certifique-se de que o caminho está correto
 
-// 1. Criar o Contexto
 const AuthContext = createContext(null);
 
-// 2. Criar o Provedor do Contexto
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); // Para verificar a sessão inicial
+  const [loading, setLoading] = useState(true);
+  const { showAlert } = useAlert(); // Pega a função de alerta do AlertContext
 
-  // Efeito que roda quando a aplicação carrega
+  // Criamos a função de logout com useCallback para estabilizá-la.
+  const logout = useCallback((alertMessage) => {
+    localStorage.removeItem('@Auth:token');
+    localStorage.removeItem('@Auth:user');
+    setToken(null);
+    setUser(null);
+    
+    // Se uma mensagem de alerta foi passada pelo interceptor, exibe o nosso modal.
+    if (alertMessage) {
+      showAlert(alertMessage, 'Sessão Expirada');
+    }
+    // O redirecionamento para /login acontecerá automaticamente porque o
+    // estado `isAuthenticated` mudará para `false` no App.jsx
+  }, [showAlert]);
+
+  // Este useEffect roda uma vez para configurar a ponte entre a API e o Contexto.
+  useEffect(() => {
+    setupAuthInterceptor(logout);
+  }, [logout]);
+
   useEffect(() => {
     async function loadStoragedData() {
       const storagedToken = localStorage.getItem('@Auth:token');
@@ -25,46 +44,35 @@ export const AuthProvider = ({ children }) => {
     loadStoragedData();
   }, []);
 
-  // Função de Login
   const login = async (credentials) => {
     try {
-      const response = await apiLogin(credentials); // Chama nosso serviço mock
-      const { token, user } = response.data;
-
-      // Armazena no localStorage para persistir a sessão
-      localStorage.setItem('@Auth:token', token);
+      const response = await api.post('/auth/login', credentials);
+      const { access_token, user } = response.data;
+      
+      localStorage.setItem('@Auth:token', access_token);
       localStorage.setItem('@Auth:user', JSON.stringify(user));
 
-      // Atualiza o estado
-      setToken(token);
+      setToken(access_token);
       setUser(user);
       
       return { success: true };
     } catch (error) {
-      console.error('Falha no login:', error.message);
-      return { success: false, message: error.message || 'Credenciais inválidas' };
+      // Agora, este catch só receberá o erro 401 da tela de login.
+      const message = error.response?.data?.message || 'Erro ao fazer login.';
+      // Lida com o caso da API retornar um array de mensagens de erro
+      const displayMessage = Array.isArray(message) ? message.join(', ') : message;
+      return { success: false, message: displayMessage };
     }
   };
 
-  // Função de Logout
-  const logout = () => {
-    // Limpa o localStorage
-    localStorage.removeItem('@Auth:token');
-    localStorage.removeItem('@Auth:user');
-
-    // Reseta o estado
-    setToken(null);
-    setUser(null);
-  };
-
-  // 3. Valor que o contexto vai prover
   const authContextValue = {
-    isAuthenticated: !!user, // Converte o objeto user para um booleano
+    isAuthenticated: !!user,
     user,
     token,
     loading,
     login,
-    logout,
+    // Expomos uma versão do logout que pode ser chamada sem argumento (ex: por um botão)
+    logout: () => logout(null),
   };
 
   return (
@@ -74,7 +82,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// 4. Hook customizado para facilitar o uso do contexto
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

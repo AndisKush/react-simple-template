@@ -1,4 +1,3 @@
-import React from 'react';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Line } from 'recharts';
 import { Card, CardTitle } from '../../components/Card';
 import { salesEvolutionData } from '../../data/mockDashboard';

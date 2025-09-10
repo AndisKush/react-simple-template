@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { kpiData } from '../../data/mockDashboard';
 import { Card, CardTitle } from '../../components/Card';

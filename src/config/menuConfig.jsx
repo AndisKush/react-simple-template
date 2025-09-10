@@ -1,7 +1,6 @@
-import React from 'react';
-
 // Vamos pré-definir os ícones aqui para facilitar
 const HomeIcon = () => '🏠';
+const UserIcon = () => '👥';
 const ProductIcon = () => '📦';
 const CustomerIcon = () => '👥';
 const SupplierIcon = () => '🚚';
@@ -24,6 +23,16 @@ export const menuItems = [
     showOnMobile: true,
     // Submenus são definidos em um array 'children'
     children: [
+      {
+        id: 'users',
+        label: 'Usuários',
+        path: '/users',
+        icon: <UserIcon />,
+        showOnWide: true,
+        // No mobile, este item não aparecerá na barra principal,
+        // mas sim na tela de "Cadastro".
+        showOnMobile: false, 
+      },
       {
         id: 'products',
         label: 'Produtos',
