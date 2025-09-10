@@ -73,7 +73,7 @@ const ProductsScreen = () => {
   return (
     <div>
       <Header>
-        <h1>Produtoos</h1>
+        <h1>Produtos</h1>
         <Link
           to="/products/new"
           style={{ textDecoration: "none", minWidth: "200px" }}
