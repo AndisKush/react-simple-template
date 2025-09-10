@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDevice } from '../../hooks/useDevice';
 import DashboardWidescreen from '../Dashboard/DashboardWidescreen';
 import DashboardMobile from '../Dashboard/DashboardMobile';

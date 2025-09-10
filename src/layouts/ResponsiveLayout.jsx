@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDevice } from '../hooks/useDevice';
 import WidescreenLayout from './WidescreenLayout';
 import MobileLayout from './MobileLayout';

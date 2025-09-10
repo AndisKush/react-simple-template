@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GlobalStyle } from './styles/GlobalStyle';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -8,6 +7,7 @@ import { ThemeModeProvider } from './contexts/ThemeContext'; // <-- IMPORTADO AQ
 import ResponsiveLayout from './layouts/ResponsiveLayout';
 import LoginScreen from './screens/Login';
 import HomeScreen from './screens/Home';
+import UsersScreen from './screens/Register/Users';
 import ProductsScreen from './screens/Register/Products';
 import CustomersScreen from './screens/Register/Customers';
 import SuppliersScreen from './screens/Register/Suppliers';
@@ -32,6 +32,7 @@ function App() {
                 <ResponsiveLayout>
                   <Routes>
                     <Route path="/" element={<HomeScreen />} />
+                    <Route path="/users" element={<UsersScreen />} />
                     <Route path="/products" element={<ProductsScreen />} />
                     <Route path="/customers" element={<CustomersScreen />} />
                     <Route path="/suppliers" element={<SuppliersScreen />} />

@@ -10,13 +10,13 @@ const Container = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-const ProductsScreen = () => {
+const UserScreen = () => {
   return (
     <Container>
-      <h1>🛠️ Página de Clientes</h1>
-      <p>A funcionalidade de cadastro e listagem de produtos será implementada aqui.</p>
+      <h1>🛠️ Página de Usuários</h1>
+      <p>A funcionalidade de cadastro e listagem de Usuários será implementada aqui.</p>
     </Container>
   );
 };
 
-export default ProductsScreen;
+export default UserScreen;

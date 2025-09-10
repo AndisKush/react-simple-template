@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { login as apiLogin } from '../services/authService'; // Nosso serviço mock
 
 // 1. Criar o Contexto
