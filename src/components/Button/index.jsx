@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  width: 100%;
   padding: 12px;
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius};

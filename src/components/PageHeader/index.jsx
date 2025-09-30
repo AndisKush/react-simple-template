@@ -27,7 +27,7 @@ export const PageHeader = ({ title, buttonLabel, buttonTo, onClickButton }) => {
     
     if (onClickButton) {
       return (
-        <Button onClick={onClickButton} style={{ minWidth: '200px' }}>
+        <Button onClick={onClickButton}>
           {buttonLabel}
         </Button>
       );

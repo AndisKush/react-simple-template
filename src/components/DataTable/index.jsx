@@ -220,9 +220,9 @@ const DataTable = ({ data, columns, itemsPerPage = 5 }) => {
             <StyledTable>
               <thead>
                 <tr>
-                  {columns.map((col) => (
+                  {columns.map((col, index) => (
                     <th
-                      key={col.accessor}
+                      key={col.accessor || index}
                       style={{ textAlign: col.align || "left" }}
                     >
                       {col.Header}
@@ -234,9 +234,9 @@ const DataTable = ({ data, columns, itemsPerPage = 5 }) => {
                 {paginatedData.length > 0 ? (
                   paginatedData.map((item, index) => (
                     <tr key={index}>
-                      {columns.map((col) => (
+                      {columns.map((col, index) => (
                         <td
-                          key={col.accessor}
+                          key={col.accessor || index}
                           style={{ textAlign: col.align || "left" }}
                         >
                           {renderCell(item, col)}

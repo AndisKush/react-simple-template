@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // <-- 1. IMPORTADO AQUI
 import styled, { keyframes } from "styled-components";
 import { Input } from "../../components/Input";
+import { InputPassword } from "../../components/InputPassword";
 import { Button } from "../../components/Button";
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -94,8 +95,7 @@ const LoginScreen = () => {
           />
         </InputGroup>
         <InputGroup>
-          <Input
-            type="password"
+          <InputPassword
             placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
