@@ -140,6 +140,13 @@ const commonLinkStyles = css`
   }
 `;
 
+const SubMenu = styled.div`
+  overflow: hidden;
+  max-height: ${({ $isOpen }) => ($isOpen ? "1000px" : "0")};
+  transition: max-height 0.3s ease-in-out;
+  padding-left: ${({ theme }) => theme.spacing.lg};
+`;
+
 const StyledNavLink = styled(NavLink)`
   ${commonLinkStyles}
   &.active {
@@ -154,13 +161,6 @@ const MenuButton = styled.button`
   color: ${({ theme, $active }) =>
     $active ? theme.colors.primary : theme.colors.textSecondary};
   font-weight: ${({ $active }) => ($active ? 700 : 500)};
-`;
-
-const SubMenu = styled.div`
-  overflow: hidden;
-  max-height: ${({ $isOpen }) => ($isOpen ? "200px" : "0")};
-  transition: max-height 0.3s ease-in-out;
-  padding-left: ${({ theme }) => theme.spacing.lg};
 `;
 
 const LogoutButton = styled.button`

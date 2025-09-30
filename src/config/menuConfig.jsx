@@ -5,6 +5,7 @@ const ProductIcon = () => '📦';
 const CustomerIcon = () => '👥';
 const SupplierIcon = () => '🚚';
 const RegisterIcon = () => '📝';
+const SalesIcon = () => '🛒';
 
 export const menuItems = [
   {
@@ -60,5 +61,13 @@ export const menuItems = [
         showOnMobile: false,
       },
     ],
+  },
+  {
+    id: 'vendas',
+    label: 'Vendas',
+    path: '/vendas', // O react-router usará este path
+    icon: <SalesIcon />,
+    showOnWide: true,
+    showOnMobile: true,
   },
 ];

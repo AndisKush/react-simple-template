@@ -11,13 +11,15 @@ import {
   deleteUser,
 } from "../../../services/userService";
 import { useAlert } from "../../../contexts/AlertContext";
+import { useConfirm } from "../../../contexts/ConfirmationContext";
 
 const UsersScreen = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  const { showAlert } = useAlert(); // <-- Nosso novo hook de alerta
+  const { showAlert } = useAlert();
+  const confirm = useConfirm();
 
   const loadUsers = async () => {
     try {
@@ -42,9 +44,17 @@ const UsersScreen = () => {
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setEditingUser(null);
-    setModalOpen(false);
+  const handleCloseModal = async (skipConfirmation) => {
+    if(skipConfirmation === true){
+      setEditingUser(null);
+      setModalOpen(false);
+      return
+    }
+    const confirmed = await confirm(`Tem certeza que deseja sair?`, "Sair");
+    if (confirmed) {
+      setEditingUser(null);
+      setModalOpen(false);
+    }
   };
 
   const handleFormSubmit = async (formData) => {
@@ -56,7 +66,7 @@ const UsersScreen = () => {
         await createUser(formData);
         showAlert("Usuário criado com sucesso!", "Sucesso");
       }
-      handleCloseModal();
+      handleCloseModal(true);
       loadUsers();
     } catch (error) {
       const errorMsg =
@@ -69,13 +79,17 @@ const UsersScreen = () => {
     }
   };
 
-  const handleDelete = async (userId) => {
-    // Aqui integraremos o modal de confirmação no futuro
-    if (window.confirm("Tem certeza que deseja excluir este usuário?")) {
+  const handleDelete = async (user) => {
+    const confirmed = await confirm(
+      `Tem certeza que deseja excluir o usuário "${user.name}"? Esta ação não pode ser desfeita.`,
+      "Confirmar Exclusão"
+    );
+
+    if (confirmed) {
       try {
-        await deleteUser(userId);
+        await deleteUser(user.id);
         showAlert("Usuário excluído com sucesso!", "Sucesso");
-        loadUsers();
+        loadUsers(); // Recarrega a lista
       } catch (error) {
         showAlert(
           error.response?.data?.message || "Ocorreu um erro ao excluir."
@@ -100,7 +114,7 @@ const UsersScreen = () => {
       Cell: ({ row }) => (
         <ActionButtons>
           <button onClick={() => handleOpenModal(row)}>✏️</button>
-          <button onClick={() => handleDelete(row.id)}>🗑️</button>
+          <button onClick={() => handleDelete(row)}>🗑️</button>
         </ActionButtons>
       ),
     },

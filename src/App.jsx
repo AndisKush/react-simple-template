@@ -3,6 +3,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ThemeModeProvider } from "./contexts/ThemeContext";
 import { AlertProvider } from "./contexts/AlertContext";
+import { ConfirmationProvider } from "./contexts/ConfirmationContext";
 
 // Layouts e Telas
 import ResponsiveLayout from "./layouts/ResponsiveLayout";
@@ -24,41 +25,46 @@ function App() {
     // O ThemeModeProvider agora gerencia o tema e o StyledThemeProvider
     <ThemeModeProvider>
       <AlertProvider>
-        <GlobalStyle />
-        <BrowserRouter>
-          <AuthProvider>
-            <Routes>
-              <Route path="/login" element={<LoginScreen />} />
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute>
-                    <ResponsiveLayout>
-                      <Routes>
-                        <Route path="/" element={<HomeScreen />} />
-                        <Route path="/users" element={<UsersScreen />} />
-                        <Route path="/products" element={<ProductsScreen />} />
-                        <Route
-                          path="/customers"
-                          element={<CustomersScreen />}
-                        />
-                        <Route
-                          path="/suppliers"
-                          element={<SuppliersScreen />}
-                        />
-                        <Route
-                          path="/menu/register"
-                          element={<RegisterMenuScreen />}
-                        />
-                        <Route path="*" element={<Navigate to="/" />} />
-                      </Routes>
-                    </ResponsiveLayout>
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </AuthProvider>
-        </BrowserRouter>
+        <ConfirmationProvider>
+          <GlobalStyle />
+          <BrowserRouter>
+            <AuthProvider>
+              <Routes>
+                <Route path="/login" element={<LoginScreen />} />
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <ResponsiveLayout>
+                        <Routes>
+                          <Route path="/" element={<HomeScreen />} />
+                          <Route path="/users" element={<UsersScreen />} />
+                          <Route
+                            path="/products"
+                            element={<ProductsScreen />}
+                          />
+                          <Route
+                            path="/customers"
+                            element={<CustomersScreen />}
+                          />
+                          <Route
+                            path="/suppliers"
+                            element={<SuppliersScreen />}
+                          />
+                          <Route
+                            path="/menu/register"
+                            element={<RegisterMenuScreen />}
+                          />
+                          <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
+                      </ResponsiveLayout>
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </AuthProvider>
+          </BrowserRouter>
+        </ConfirmationProvider>
       </AlertProvider>
     </ThemeModeProvider>
   );
